@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+    private final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
 //                    createUser();
+                    binding.signInInfo.setText(user.getEmail());
 
                 } else {
                     // User is signed out
@@ -59,11 +62,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                verifySignIn();
+            }
+        });
+
 
     }
 
+//    private void verifySignIn() {
+//
+//        mAuth.signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete( Task<AuthResult> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithEmail", task.getException().getMessage());
+//                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        // ...
+//                    }
+//                });
+//
+//    }
+
     private void createUser() {
-        mAuth.createUserWithEmailAndPassword(binding.userNameTxt.getText().toString(), binding.passTxt.getText().toString())
+        mAuth.createUserWithEmailAndPassword(binding.userNameTxt.getText().toString(),
+                binding.passTxt.getText().toString())
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
