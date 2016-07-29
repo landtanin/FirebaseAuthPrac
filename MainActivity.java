@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -43,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (user != null) {
                     // User is signed in
-//                    createUser();
                     binding.signInInfo.setText(user.getEmail());
 
                 } else {
                     // User is signed out
+                    Toast.makeText(MainActivity.this, "sign out completed", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         binding.createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                email = binding.userNameTxt.getText().toString();
+                password = binding.passTxt.getText().toString();
+
                 createUser();
             }
         });
@@ -65,32 +70,37 @@ public class MainActivity extends AppCompatActivity {
         binding.signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                verifySignIn();
+
+                email = binding.userNameTxt.getText().toString();
+                password = binding.passTxt.getText().toString();
+
+                verifySignIn();
             }
         });
 
 
     }
 
-//    private void verifySignIn() {
-//
-//        mAuth.signInWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete( Task<AuthResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInWithEmail", task.getException().getMessage());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                        }
-//                        // ...
-//                    }
-//                });
-//
-//    }
+    private void verifySignIn() {
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete( Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("signInWithEmail", task.getException().getMessage());
+                            Toast.makeText(MainActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Login completed", Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+
+    }
 
     private void createUser() {
-        mAuth.createUserWithEmailAndPassword(binding.userNameTxt.getText().toString(),
-                binding.passTxt.getText().toString())
+        mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
