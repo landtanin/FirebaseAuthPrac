@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Waiting for the user to sign-in, if they sign-in, getCurrentUser will not null
+        // Waiting for the user to sign-in/create new account, if they sign-in/create new account, getCurrentUser will not null
         // and we'll receive a data of the current user.
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
